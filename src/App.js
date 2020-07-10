@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { fetch_url } from "./utils";
+import Sidebar from "./components/Sidebar";
+import styled from "styled-components";
+import { Switch, Route, Redirect } from "react-router-dom";
+import Discover from "./pages/Discover.js";
+import Genres from "./pages/Genres";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const Wrapper = styled.div`
+  display: flex;
+`;
+
+class App extends React.PureComponent {
+  render() {
+    console.log(1);
+    return (
+      <Wrapper>
+        <Sidebar />
+        <Switch>
+          <Redirect from="/" to="/discover/popular" exact />
+          <Route path="/discover/:name" component={Discover} />
+          <Route path="/genre/:id" component={Genres} />
+          <Route>Path not found</Route>
+        </Switch>
+      </Wrapper>
+    );
+  }
 }
 
 export default App;
