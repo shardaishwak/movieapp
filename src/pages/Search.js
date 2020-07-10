@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { decrypt_query } from "../utils";
 import Films from "../components/Films";
+import { decrypt_query } from "../utils";
 import styled from "styled-components";
 
 const Title = styled.div`
@@ -19,12 +19,10 @@ const SectionName = styled.div`
   margin-left: 40px;
 `;
 
-class Discover extends React.PureComponent {
+class Search extends React.PureComponent {
   state = {
     films: [],
-    laading: false,
-    total_pages: 0,
-    current_page: 0,
+    loading: false,
   };
   componentDidMount() {
     const query = decrypt_query(this.props.location.search);
@@ -32,21 +30,19 @@ class Discover extends React.PureComponent {
     this.setState({ loading: true });
 
     fetch(
-      `https://api.themoviedb.org/3/movie/${
-        this.props.match.params.name
-      }?api_key=e366d974f73ae203397850eadc7bce1f${
-        page ? "&page=" + page.page : ""
-      }`
+      `https://api.themoviedb.org/3/search/movie?api_key=e366d974f73ae203397850eadc7bce1f&query=${
+        this.props.match.params.query
+      }${page ? "&page=" + page.page : ""}`
     )
       .then((res) => res.json())
-      .then((data) => {
+      .then((data) =>
         this.setState({
           films: data.results,
           loading: false,
           total_pages: data.total_pages,
           current_page: data.page,
-        });
-      })
+        })
+      )
       .catch((err) => console.log(err));
   }
   componentDidUpdate(prevProps) {
@@ -56,11 +52,9 @@ class Discover extends React.PureComponent {
       this.setState({ loading: true });
 
       fetch(
-        `https://api.themoviedb.org/3/movie/${
-          this.props.match.params.name
-        }?api_key=e366d974f73ae203397850eadc7bce1f${
-          page ? "&page=" + page.page : ""
-        }`
+        `https://api.themoviedb.org/3/search/movie?api_key=e366d974f73ae203397850eadc7bce1f&query=${
+          this.props.match.params.query
+        }${page ? "&page=" + page.page : ""}`
       )
         .then((res) => res.json())
         .then((data) =>
@@ -75,24 +69,19 @@ class Discover extends React.PureComponent {
     }
   }
   render() {
-    let title;
-
-    if (this.props.match.params.name === "popular") title = "popular";
-    else if (this.props.match.params.name === "top_rated") title = "top rated";
-    else title = "upcoming";
     return (
-      <div>
-        <Title>{title}</Title>
-        <SectionName>movie</SectionName>
+      <>
+        <Title>{this.props.match.params.query}</Title>
+        <SectionName>RESUlts</SectionName>
         <Films
           films={this.state.films}
           total_pages={this.state.total_pages}
           loading={this.state.loading}
           current_page={this.state.current_page}
         />
-      </div>
+      </>
     );
   }
 }
 
-export default withRouter(Discover);
+export default withRouter(Search);

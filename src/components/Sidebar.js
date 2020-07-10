@@ -7,9 +7,10 @@ const Container = styled.div`
   width: 25%;
   height: 100vh;
   overflow: auto;
+  box-sizing: border-box;
   background: #fff;
   color: #212121;
-  margin-right: 20px;
+  padding-bottom: 30px;
 `;
 
 const Title = styled.div`
@@ -55,14 +56,17 @@ class Sidebar extends React.Component {
     this.setState({ loading: true });
     fetch_url(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=e366d974f73ae203397850eadc7bce1f",
-      (data) => this.setState({ links: data.genres, loading: false })
+      (data) => {
+        this.setState({ links: data.genres, loading: false });
+        localStorage.setItem("genres", JSON.stringify(data.genres));
+      }
     );
   }
   render() {
-    console.log(this.state.links);
     return (
       <Container>
         <Title>Movie App</Title>
+
         <Section>
           <SectionName>discover</SectionName>
           <SectionLink activeClassName="active" to="/discover/popular">
@@ -84,7 +88,7 @@ class Sidebar extends React.Component {
               <SectionLink
                 key={link.id}
                 activeClassName="active"
-                to={"/genre/" + link.id}
+                to={"/genre/" + link.id + "?name=" + link.name}
               >
                 {link.name}
               </SectionLink>
