@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import ReactStars from "react-stars";
+import { Link } from "react-router-dom";
 
-const Container = styled.div`
+import bc from "../../assets/blank_canvas.png";
+
+const Container = styled(Link)`
   border-radius: 10px;
   transition: 0.15s linear;
   display: flex;
@@ -30,9 +33,13 @@ const Container = styled.div`
 `;
 
 const Film = (props) => (
-  <Container>
+  <Container to={props.link}>
     <img
-      src={`https://image.tmdb.org/t/p/w342` + props.film.poster_path}
+      src={
+        props.film.poster_path
+          ? `https://image.tmdb.org/t/p/w342` + props.film.poster_path
+          : bc
+      }
       alt={props.film.title + " poster"}
     />
     <div className="title">{props.film.title}</div>

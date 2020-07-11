@@ -8,14 +8,24 @@ import Search from "./pages/Search";
 import SearchInput from "./components/SearchInput";
 
 import pnf from "./assets/404.png";
+import MainFIlm from "./pages/MainFIlm";
 
 const Wrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 20% 80%;
+
+  @media screen and (max-width: 1000px) {
+    grid-template-columns: auto;
+  }
 `;
 const Container = styled.div`
-  width: 100%;
   height: 100vh;
   overflow: auto;
+
+  @media screen and (max-width: 1000px) {
+    overflow: visible;
+    height: auto;
+  }
 `;
 
 const NotFound = styled.div`
@@ -43,6 +53,7 @@ class App extends React.PureComponent {
             <Route path="/discover/:name" component={Discover} />
             <Route path="/genre/:id" component={Genres} />
             <Route path="/search/:query" component={Search} />
+            <Route path="/movie/:id" component={MainFIlm} />
             <Route>
               <NotFound>
                 <img src={pnf} alt="404."></img>

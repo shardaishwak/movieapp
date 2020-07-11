@@ -12,6 +12,17 @@ const Container = styled.div`
   padding: 20px 40px;
   grid-gap-rows: 40px;
   margin-top: 20px;
+
+  @media screen and (max-width: 1100px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (max-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 500px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const Loading = styled.div`
@@ -107,7 +118,7 @@ const Films = (props) => {
           {props.films && props.films.length > 0 ? (
             <Container>
               {props.films.map((film) => (
-                <Film key={film.id} film={film} />
+                <Film key={film.id} film={film} link={"/movie/" + film.id} />
               ))}
             </Container>
           ) : (
@@ -120,19 +131,19 @@ const Films = (props) => {
       <Buttons>
         {props.current_page > 1 ? (
           <button onClick={PageDown}>
-            <i class="fal left fa-long-arrow-left"></i> Page{" "}
+            <i className="fal left fa-long-arrow-left"></i> Page{" "}
             {props.current_page - 1}
           </button>
         ) : (
           <div></div>
         )}
         <p>
-          {props.current_page} - {props.total_page}
+          {props.current_page} - {props.total_pages} pages
         </p>
         {props.current_page < props.total_pages ? (
           <button onClick={PageUp}>
             Page {props.current_page + 1}{" "}
-            <i class="fal right fa-long-arrow-right"></i>
+            <i className="fal right fa-long-arrow-right"></i>
           </button>
         ) : (
           <div></div>

@@ -9,6 +9,7 @@ body {
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor: default;
 }
 
 code {
@@ -18,6 +19,7 @@ code {
 
 a {
   text-decoration: none;
+  color: #212121;
 }
 
 ul,

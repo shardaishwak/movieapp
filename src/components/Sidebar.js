@@ -4,13 +4,21 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 const Container = styled.div`
-  width: 25%;
   height: 100vh;
   overflow: auto;
   box-sizing: border-box;
   background: #fff;
   color: #212121;
   padding-bottom: 30px;
+
+  i {
+    display: none;
+  }
+
+  @media screen and (max-width: 1000px) {
+    overflow: visible;
+    height: auto;
+  }
 `;
 
 const Title = styled.div`
@@ -47,7 +55,7 @@ const SectionLink = styled(NavLink)`
   }
 `;
 
-class Sidebar extends React.Component {
+class Sidebar extends React.PureComponent {
   state = {
     links: [],
     loading: false,
@@ -65,36 +73,41 @@ class Sidebar extends React.Component {
   render() {
     return (
       <Container>
-        <Title>Movie App</Title>
+        <div className="toggle">
+          <Title>Movie App</Title>
+          <i className="far fa-bars"></i>
+        </div>
 
-        <Section>
-          <SectionName>discover</SectionName>
-          <SectionLink activeClassName="active" to="/discover/popular">
-            popular
-          </SectionLink>
-          <SectionLink activeClassName="active" to="/discover/top_rated">
-            top rated
-          </SectionLink>
-          <SectionLink activeClassName="active" to="/discover/upcoming">
-            upcoming
-          </SectionLink>
-        </Section>
-        {this.state.loading ? (
-          <h4>Loading...</h4>
-        ) : (
+        <div className="sections">
           <Section>
-            <SectionName>Genres</SectionName>
-            {this.state.links.map((link) => (
-              <SectionLink
-                key={link.id}
-                activeClassName="active"
-                to={"/genre/" + link.id + "?name=" + link.name}
-              >
-                {link.name}
-              </SectionLink>
-            ))}
+            <SectionName>discover</SectionName>
+            <SectionLink activeClassName="active" to="/discover/popular">
+              popular
+            </SectionLink>
+            <SectionLink activeClassName="active" to="/discover/top_rated">
+              top rated
+            </SectionLink>
+            <SectionLink activeClassName="active" to="/discover/upcoming">
+              upcoming
+            </SectionLink>
           </Section>
-        )}
+          {this.state.loading ? (
+            <h4>Loading...</h4>
+          ) : (
+            <Section>
+              <SectionName>Genres</SectionName>
+              {this.state.links.map((link) => (
+                <SectionLink
+                  key={link.id}
+                  activeClassName="active"
+                  to={"/genre/" + link.id + "?name=" + link.name}
+                >
+                  {link.name}
+                </SectionLink>
+              ))}
+            </Section>
+          )}
+        </div>
       </Container>
     );
   }
