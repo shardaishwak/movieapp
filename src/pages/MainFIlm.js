@@ -1,9 +1,9 @@
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
+import ReactStars from "react-stars";
 import styled from "styled-components";
 
 import nf from "../assets/not_found.png";
-import ReactStars from "react-stars";
 import Films from "../components/Films";
 import { decrypt_query } from "../utils";
 
